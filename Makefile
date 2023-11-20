@@ -1,25 +1,33 @@
-# Makefile
-.PHONY: setup certs up down
+.PHONY: help certs up down logs
 
-# Default action is to start up the project
+## Show help
+RESET=\x1b[0m
+GREEN=\x1b[32;01m
+RED=\x1b[31;01m
+YELLOW=\x1b[33;01m
+
 default: up
 
-# Setup the application
-setup: certs
+help:
+	@echo -e "${GREEN}\nAvailable commands:${RESET}"
+	@echo -e '  ${YELLOW}help${RESET} - You are here'
+	@echo -e '  ${YELLOW}certs${RESET} - generate SSL certificates'
+	@echo -e '  ${YELLOW}up${RESET} - start Docker containers'
+	@echo -e '  ${YELLOW}down${RESET} - stop Docker containers'
+	@echo -e '  ${YELLOW}logs${RESET} - view Docker container logs'
 
-# Generate SSL certificates
 certs:
-	@echo "Generating SSL certificates..."
+	@echo -e "${GREEN}Generating SSL certificates...${RESET}"
 	@./ssl/create-certs.sh
 
-# Start up the docker-compose project
-up: setup
-	@echo "Starting up containers..."
+up:
+	@echo -e "${GREEN}Starting up Docker containers...${RESET}"
 	@docker-compose up -d --build
 
-# Stop the docker-compose project
 down:
-	@echo "Stopping containers..."
+	@echo -e "${GREEN}Stopping Docker containers...${RESET}"
 	@docker-compose down
 
-# If you'd like to add more utility rules, you can do so below
+logs:
+	@echo -e "${GREEN}Showing Docker container logs...${RESET}"
+	docker-compose logs -f

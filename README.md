@@ -102,11 +102,3 @@ Running the following will stop all active Docker containers:
 ```shell
 make down
 ```
-
-## Issues:
-
-- Research Debugging in WordPress -<br>https://wordpress.org/documentation/article/debugging-in-wordpress/
-- Fix Critical issues on the page "Site Health" `/wp-admin/site-health.php?tab`:
-    - The REST API encountered an error
-    - Your site could not complete a loopback request
-    - Mailhog

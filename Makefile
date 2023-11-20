@@ -20,7 +20,7 @@ certs:
 	@echo -e "${GREEN}Generating SSL certificates...${RESET}"
 	@./ssl/create-certs.sh
 
-up:
+up: certs
 	@echo -e "${GREEN}Starting up Docker containers...${RESET}"
 	@docker-compose up -d --build
 

@@ -33,43 +33,32 @@ git -v
 
 (Source: https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows#32127632)
 
-You can do without make, but you will have to use longer commands if you do so.
-
 ## Setting up your site
 
 Go to any of your project folders and then run the following (replacing my-site with whatever you wish):
 
 ```shell
-git clone https://github.com/<MY_GIT_REPOSITORY> my-site
-cd my-site
+git clone https://github.com/snetcher/docker-wordpress.git .
 ```
 
-### First start.
+This will create a copy of the repository in the current folder.
+
+### Generate SSL certificates.
+
+To work via https you need to create SSL certificates:
 
 ```shell
-make build
+make certs
 ```
 
-_If you are not using the make utility._
+|| _**Note:** At the first start, SSL certificates are generated and registered to support operation via the HTTPS protocol._
 
-```shell
-docker-compose up -d --build
-```
-
-|| Note: At the first start, SSL certificates are generated and registered to support operation via the HTTPS protocol.
-
-|| Note: The first time you run `docker-compose` it might take a while to download the Docker images.
+|| _**Note:** The first time you run `docker-compose` it might take a while to download the Docker images._
 
 ### Normal launch.
 
 ```shell
 make up
-```
-
-_If you are not using the make utility._
-
-```shell
-docker-compose up -d
 ```
 
 This will spin up a few Docker containers:
@@ -112,12 +101,6 @@ Running the following will stop all active Docker containers:
 
 ```shell
 make down
-```
-
-_If you are not using the make utility._
-
-```shell
-docker stop $(docker ps -q)
 ```
 
 ## Issues:

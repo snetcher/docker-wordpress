@@ -92,19 +92,19 @@ You can now use your development WordPress site as you would any WordPress site.
 
 Inside your primary `my-site` project folder you will see the following:
 
-* .env -- Contains container settings and allows you to change their settings.
-* docker-compose.yml -- The Docker configuration for your project.
-* Makefile -- Provides the ability to more conveniently manage processes.
-* README.md -- You are here.
+* **.env** -- Contains container settings and allows you to change their settings.
+* **docker-compose.yml** -- The Docker configuration for your project.
+* **Makefile** -- Provides the ability to more conveniently manage processes.
+* **README.md** -- You are here.
 * **wordpress/** -- The WordPress files.
 * **db_data/** -- Contains database files.
 * **config/**
     * **nginx/**
-        * default.conf -- The nginx configuration for your site.
-        * Dockerfile -- Configures the use of SSL certificates to support work over the HTTPS protocol.
+        * **default.conf** -- The nginx configuration for your site.
+        * **Dockerfile** -- Configures the use of SSL certificates to support work over the HTTPS protocol.
     * **php/**
-        * php.ini -- PHP settings inside the container.
-        * www.conf -- User access rights settings.
+        * **php.ini** -- PHP settings inside the container.
+        * **www.conf** -- User access rights settings.
 
 ## Stopping your project
 
@@ -121,8 +121,6 @@ docker stop $(docker ps -q)
 ```
 
 ## Issues:
-
----
 
 - Research Debugging in WordPress -<br>https://wordpress.org/documentation/article/debugging-in-wordpress/
 - Fix Critical issues on the page "Site Health" `/wp-admin/site-health.php?tab`:

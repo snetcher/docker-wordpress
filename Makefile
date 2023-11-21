@@ -31,7 +31,8 @@ certs:
 .PHONY: up
 up: certs
 	@echo -e "${GREEN}Starting up Docker containers...${RESET}"
-	@docker-compose up -d --build
+	@docker compose pull
+	@docker compose up -d --build
 
 ## down:	stop Docker containers'
 .PHONY: down

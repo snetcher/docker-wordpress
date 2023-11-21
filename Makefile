@@ -1,4 +1,6 @@
-.PHONY: help certs up down logs
+#.PHONY: help certs up down logs
+
+include .env
 
 ## Show help
 RESET=\x1b[0m

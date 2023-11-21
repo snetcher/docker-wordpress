@@ -8,26 +8,39 @@ YELLOW=\x1b[33;01m
 
 default: up
 
-help:
-	@echo -e "${GREEN}\nAvailable commands:${RESET}"
-	@echo -e '  ${YELLOW}help${RESET} - You are here'
-	@echo -e '  ${YELLOW}certs${RESET} - generate SSL certificates'
-	@echo -e '  ${YELLOW}up${RESET} - start Docker containers'
-	@echo -e '  ${YELLOW}down${RESET} - stop Docker containers'
-	@echo -e '  ${YELLOW}logs${RESET} - view Docker container logs'
+## help : Print this help.
+.PHONY: help
 
+ifneq (,$(wildcard docker.mk))
+help : docker.mk
+	@sed -n 's/^##//p' $<
+else
+help : Makefile
+	@sed -n 's/^##//p' $<
+endif
+
+
+
+## certs:	generate SSL certificates
+.PHONY: certs
 certs:
 	@echo -e "${GREEN}Generating SSL certificates...${RESET}"
 	@./ssl/create-certs.sh
 
+## up:	start Docker containers
+.PHONY: up
 up: certs
 	@echo -e "${GREEN}Starting up Docker containers...${RESET}"
 	@docker-compose up -d --build
 
+## down:	stop Docker containers'
+.PHONY: down
 down:
 	@echo -e "${GREEN}Stopping Docker containers...${RESET}"
 	@docker-compose down
 
+## down:	view Docker container logs'
+.PHONY: down
 logs:
 	@echo -e "${GREEN}Showing Docker container logs...${RESET}"
 	docker-compose logs -f

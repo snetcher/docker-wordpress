@@ -1,8 +1,15 @@
 version: '3.8'
 
+x-services-defaults:
+  &service-defaults
+  restart: always
+  networks:
+    - front
+
 services:
   wordpress:
-    image: wordpress:php8.0-fpm-alpine
+    <<: *service-defaults
+    image: ${WORDPRESS_TAG}
     container_name: "${PROJECT_NAME}_wordpress"
     restart: always
     volumes:
@@ -17,19 +24,19 @@ services:
     depends_on:
       - db
 
-  db:
-    image: mariadb:10.5
+  mariadb:
+    <<: *service-defaults
+    image: ${MARIADB_TAG}
     container_name: "${PROJECT_NAME}_mariadb"
-    restart: always
-    volumes:
-      - ${DB_DATA_PATH}:/var/lib/mysql
+#    stop_grace_period: 30s
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
 
-  webserver:
+  nginx:
+    <<: *service-defaults
     build:
       context: .
       dockerfile: ./config/nginx/Dockerfile
@@ -44,7 +51,8 @@ services:
       - wordpress
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+    <<: *service-defaults
+    image: ${PHPMYADMIN_TAG}
     container_name: "${PROJECT_NAME}_phpmyadmin"
     environment:
       PMA_HOST: db
@@ -57,3 +65,7 @@ services:
 volumes:
   db_data:
   wordpress:
+
+networks:
+  front:
+    driver: bridge

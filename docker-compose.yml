@@ -17,6 +17,7 @@ services:
       - ./config/php/php.ini:/usr/local/etc/php/conf.d/custom.ini
       - ./config/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
     environment:
+      COMPOSER_MEMORY_LIMIT: "-1"
       WORDPRESS_DB_HOST: ${DB_HOST}
       WORDPRESS_DB_USER: ${DB_USER}
       WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}

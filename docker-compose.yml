@@ -11,17 +11,22 @@ services:
     <<: *service-defaults
     image: ${WORDPRESS_TAG}
     container_name: "${PROJECT_NAME}_wordpress"
-    restart: always
-    volumes:
-      - ${WORDPRESS_DATA_PATH}:/var/www/html
-      - ./config/php/php.ini:/usr/local/etc/php/conf.d/custom.ini
-      - ./config/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+    working_dir: /var/www/html
+#    command: php-fpm80 -F -dzend.assertions=1 -dopcache.jit_buffer_size=20M
     environment:
       COMPOSER_MEMORY_LIMIT: "-1"
       WORDPRESS_DB_HOST: ${DB_HOST}
       WORDPRESS_DB_USER: ${DB_USER}
       WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
       WORDPRESS_DB_NAME: ${DB_NAME}
+    volumes:
+      - ./wordpress:/var/www/html:cached
+      - ./config/php/php.ini:/usr/local/etc/php/conf.d/custom.ini
+      - ./config/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./config/php/90-mail.ini:/etc/php8/conf.d/90-mail.ini
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${PROJECT_NAME}_wordpress.rule=Host(`${PROJECT_BASE_URL}`)"
     depends_on:
       - db
 

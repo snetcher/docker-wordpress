@@ -38,10 +38,10 @@ up: certs
 .PHONY: down
 down:
 	@echo -e "${GREEN}Stopping Docker containers...${RESET}"
-	@docker-compose down
+	@docker compose down
 
 ## down:	view Docker container logs'
 .PHONY: down
 logs:
 	@echo -e "${GREEN}Showing Docker container logs...${RESET}"
-	docker-compose logs -f
+	docker compose logs -f

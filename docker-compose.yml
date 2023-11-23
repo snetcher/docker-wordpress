@@ -60,6 +60,10 @@ services:
       - wordpress
     volumes:
       - ./wordpress:/var/www/html:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${PROJECT_NAME}_wordpress.rule=Host(`mail-${PROJECT_BASE_URL}`)"
+
 
   phpmyadmin:
     <<: *service-defaults

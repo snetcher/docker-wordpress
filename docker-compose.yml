@@ -13,7 +13,7 @@ services:
     image: ${WORDPRESS_TAG}
     container_name: "${PROJECT_NAME}_wordpress"
     working_dir: /var/www/html
-#    command: php-fpm80 -F -dzend.assertions=1 -dopcache.jit_buffer_size=20M
+    # command: php-fpm80 -F -dzend.assertions=1 -dopcache.jit_buffer_size=20M
     environment:
       COMPOSER_MEMORY_LIMIT: "-1"
       WORDPRESS_DB_HOST: ${DB_HOST}
@@ -28,6 +28,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${PROJECT_NAME}_wordpress.rule=Host(`${PROJECT_BASE_URL}`)"
+      # - "traefik.docker.network=front"
+      # - "traefik.http.routers.wordpress-secure.entrypoints=https"
     depends_on:
       - mariadb
 
@@ -35,7 +37,7 @@ services:
     <<: *service-defaults
     image: ${MARIADB_TAG}
     container_name: "${PROJECT_NAME}_mariadb"
-#    stop_grace_period: 30s
+    # stop_grace_period: 30s
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
@@ -63,6 +65,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${PROJECT_NAME}_wordpress.rule=Host(`mail-${PROJECT_BASE_URL}`)"
+      # - "traefik.docker.network=front"
+      # - "traefik.http.routers.wordpress-secure.entrypoints=https"
 
 
   phpmyadmin:
@@ -82,8 +86,10 @@ services:
     container_name: "${PROJECT_NAME}_mail"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.${PROJECT_NAME}_mail.loadbalancer.server.port=8025"
       - "traefik.http.routers.${PROJECT_NAME}_mail.rule=Host(`mail-${PROJECT_BASE_URL}`)"
+      # - "traefik.docker.network=front"
+      # - "traefik.http.routers.wordpress-secure.entrypoints=https"
+      # - "traefik.http.services.${PROJECT_NAME}_mail.loadbalancer.server.port=8025"
 
 volumes:
   db_data:
@@ -92,3 +98,4 @@ volumes:
 networks:
   front:
     driver: bridge
+    # external: true

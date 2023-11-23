@@ -13,15 +13,8 @@ default: up
 ## help : Print this help.
 .PHONY: help
 
-ifneq (,$(wildcard docker.mk))
-help : docker.mk
-	@sed -n 's/^##//p' $<
-else
 help : Makefile
 	@sed -n 's/^##//p' $<
-endif
-
-
 
 ## certs:	generate SSL certificates
 .PHONY: certs

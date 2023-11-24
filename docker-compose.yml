@@ -84,12 +84,15 @@ services:
   mailhog:
     image: ${MAILHOG_TAG}
     container_name: "${PROJECT_NAME}_mail"
+    ports:
+      - "1025:1025"
+      - "8025:8025"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${PROJECT_NAME}_mail.rule=Host(`mail-${PROJECT_BASE_URL}`)"
-      # - "traefik.docker.network=front"
+      - "traefik.http.services.${PROJECT_NAME}_mail.loadbalancer.server.port=8025"
+      - "traefik.docker.network=front"
       # - "traefik.http.routers.wordpress-secure.entrypoints=https"
-      # - "traefik.http.services.${PROJECT_NAME}_mail.loadbalancer.server.port=8025"
 
 volumes:
   db_data:
